@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ChronoFlux Mesh — WebRTC Swarm</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div id="ui">
+    <div class="top">
+      <h1>ChronoFlux Mesh — WebRTC Swarm</h1>
+      <div class="stats">
+        <span>Room: <b id="roomName"></b></span>
+        <span>Peers: <b id="peers">0</b></span>
+        <span>H: <b id="Hval">0.00</b></span>
+        <span>τ: <b id="Tau">0.00</b></span>
+        <span id="connection-status">🔴 Offline</span>
+      </div>
+    </div>
+    <div class="row">
+      <button id="toggle">Play</button>
+      <button id="lion">Lion Gate</button>
+      <button id="flip">Pacemaker Flip</button>
+      <button id="pulse">+ Intent</button>
+      <label>Nodes<input id="nodes" type="range" min="60" max="800" step="20" value="220"/></label>
+      <label>k-neigh<input id="kneigh" type="range" min="2" max="18" step="1" value="8"/></label>
+      <label>κ<input id="kappa" type="range" min="0" max="2" step="0.05" value="0.7"/></label>
+      <label>η<input id="eta" type="range" min="0" max="1" step="0.02" value="0.18"/></label>
+      <label>γ<input id="gamma" type="range" min="0" max="2" step="0.05" value="0.55"/></label>
+    </div>
+  </div>
+  <canvas id="c"></canvas>
+  
+  <!-- Load SimplePeer first -->
+  <script src="https://unpkg.com/simple-peer@9/simplepeer.min.js"></script>
+  <!-- Then load our WebRTC-enabled mesh -->
+  <script src="mesh-webrtc.js"></script>
+  
+  <style>
+    #connection-status {
+      margin-left: 20px;
+      font-weight: bold;
+    }
+    
+    #connection-status.connected {
+      color: #0f0;
+    }
+  </style>
+  
+  <script>
+    // Update connection status
+    setInterval(() => {
+      const status = document.getElementById('connection-status');
+      if (webrtcPeers && webrtcPeers.size > 0) {
+        status.textContent = '🟢 Connected';
+        status.className = 'connected';
+      } else if (signalingWs && signalingWs.readyState === WebSocket.OPEN) {
+        status.textContent = '🟡 Signaling Only';
+        status.className = '';
+      } else {
+        status.textContent = '🔴 Offline';
+        status.className = '';
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

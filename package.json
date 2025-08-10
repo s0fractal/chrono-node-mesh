@@ -1,0 +1,29 @@
+{
+  "name": "chrono-node-mesh",
+  "version": "2.0.0",
+  "description": "WebRTC-enabled synchronized oscillator network with cross-browser swarm support",
+  "main": "headless-runner.js",
+  "scripts": {
+    "start": "node signaling-server.js",
+    "headless": "node headless-runner.js",
+    "serve": "python3 -m http.server 8080",
+    "dev": "npm run start & npm run serve"
+  },
+  "keywords": [
+    "webrtc",
+    "p2p",
+    "synchronization",
+    "kuramoto",
+    "mesh",
+    "swarm"
+  ],
+  "author": "ChronoFlux Collective",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
